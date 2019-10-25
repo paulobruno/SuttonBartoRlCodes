@@ -69,19 +69,35 @@ ACTION_MEANING = {
 }
 
 
-env = RandomWalk()
+# TD(0) agent
+num_episodes = 10000
+alpha = 0.1
+gamma = 0.9
 
-observation = env.reset()
+num_states = 5
+v_s = np.full((num_states+2), 0.5, dtype=float)
+v_s[0] = 0
+v_s[-1] = 0
 
-for _ in range(10):
-  env.render()
-  action = env.action_space.sample()
-  print("action: " + env.get_action_meanings()[action])
-  observation, reward, done, info = env.step(action)
+rmse = np.zeros((num_runs), dtype=float)
 
-  if done:
-    observation = env.reset()
-    print("r: " + str(reward))
-    print()
-    
+env = RandomWalk(num_states)
+
+for _ in range(num_episodes):
+    old_state = env.reset()
+    done = False
+
+    while not done:
+        #env.render()
+        #print(v_s[1:-1])
+        action = env.action_space.sample()
+        next_state, reward, done, info = env.step(action)
+
+        v_s[old_state] = v_s[old_state] + alpha * (reward + gamma * v_s[next_state] - v_s[old_state])
+
+        old_state = next_state
+
+    #print('r: ' + str(reward))
+    #print(v_s[1:-1])
+print(v_s[1:-1])
 env.close()
