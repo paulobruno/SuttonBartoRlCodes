@@ -1,7 +1,7 @@
 # Importing the environment
 import gym
 
-env = gym.make('Taxi-v2').env
+env = gym.make('Taxi-v3').env
 
 env.reset()
 env.render()
