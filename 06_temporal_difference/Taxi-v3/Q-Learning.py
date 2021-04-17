@@ -100,5 +100,5 @@ for i in range(test_episodes):
         time.sleep(1)
     
     # the episode is done
-    print("Finished episode " + str(i) + "/" + str(test_episodes))
+    print("Finished episode " + str(i+1) + "/" + str(test_episodes))
     time.sleep(2)
